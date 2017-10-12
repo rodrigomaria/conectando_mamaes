@@ -1,0 +1,41 @@
+história do celular
+
+criação de dispositivos
+
+sistemas móveis
+
+lojas de aplicativos
+
+linguagens utilizadas
+
+aplicativos multiplataforma
+
+http://www.androidpro.com.br/como-criar-um-aplicativo-android/?inf_contact_key=e367bd8b4cfd82fe5ea7d3098d0e70708c3a1d95fb2282b3035840b3d23831d5
+
+    Passo 1: Identificar uma Ideia ou Problema
+
+    Passo 2: Validar a Ideia
+
+    Descobrir se existem outros aplicativos fazendo a mesma coisa
+    Encontrar inspiração de design para seu aplicativo
+    Encontrar informações sobre os requisitos técnicos para o seu aplicativo
+    Descobrir como você pode comercializar e rentabilizar seu aplicativo
+
+    Passo 3: Detalhar o Aplicativo
+
+    Passo 4: Design do Aplicativo
+
+    Passo 5: Teste seu Protótipo
+
+    Passo 6: Planejar e Criar o Backend
+
+    Passo 7: Teste Novamente
+
+    Passo 8: Revisar e Continuar a Construir
+
+    Passo 9: Refinar cada Detalhe
+
+    Passo 10: É Hora de Lançar!
+
+
+
