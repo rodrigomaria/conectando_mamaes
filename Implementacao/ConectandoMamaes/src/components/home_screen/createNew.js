@@ -1,3 +1,4 @@
+//importação do react e react-native
 import React, { Component } from 'react';
 import {
   Text,
@@ -9,7 +10,11 @@ import {
   Platform,
   UIManager
 } from 'react-native';
+
+//importação dos componentes
 import { getColor } from '../config';
+
+//importação do firebase
 import { firebaseApp } from '../../firebase';
 
 export default class CreateNew extends Component {
@@ -35,7 +40,7 @@ export default class CreateNew extends Component {
       postStatus: 'Postando...'
     });
 
-    if (this.state.postText.length > 1) {
+    if (this.state.postText.length >= 1) {
       const time = Date.now();
       const uid = firebaseApp.auth().currentUser.uid;
       const email = firebaseApp.auth().currentUser.email;
@@ -48,13 +53,14 @@ export default class CreateNew extends Component {
         puid: newPostKey
       };
 
-      let updates = {};
+      const updates = {};
       updates['/posts/' + newPostKey] = postData;
       updates['/users/' + uid + '/posts/' + newPostKey] = postData;
 
       firebaseApp.database().ref().update(updates).then(() => {
         this.setState({ postStatus: 'Postado.', postText: '' });
-      }).catch(() => {
+      })
+      .catch(() => {
         this.setState({ postStatus: 'Algo deu errado :(' });
       })
     } else {
@@ -63,7 +69,7 @@ export default class CreateNew extends Component {
 
     setTimeout(() => {
       this.setState({ postStatus: null });
-    }, 2000)
+    }, 2000);
   }
 
   render() {
@@ -75,7 +81,7 @@ export default class CreateNew extends Component {
         <Text style={styles.message}>{this.state.postStatus}</Text>
         <View style={styles.inputContainer}>
           <TextInput
-            multiline={true}
+            multiline
             style={styles.inputField}
             underlineColorAndroid='transparent'
             placeholder='Digite aqui...'
@@ -148,4 +154,4 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: getColor('#ffffff')
   }
-})
+});

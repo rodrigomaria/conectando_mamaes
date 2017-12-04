@@ -1,3 +1,4 @@
+//importação do react e react-native
 import React, { Component } from 'react';
 import {
   Text,
@@ -7,11 +8,15 @@ import {
   Alert,
   StyleSheet
 } from 'react-native';
+
+//importação dos componentes
+import _ from 'lodash';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import { getColor } from '../config';
-import _ from 'lodash';
 import Post from './post';
+
+//importação do firebase
 import { firebaseApp } from '../../firebase';
 
 class MyPosts extends Component {
