@@ -51,6 +51,27 @@ export default class SignUpForm extends Component {
     BackAndroid.removeEventListener('backBtnPressed', this._handleBackBtnPress);
   }
 
+  _handleGoBack() {
+    this.setState({ init: false });
+  }
+  
+  _handleBackBtnPress() {
+    this._handleGoBack();
+    return true;
+  }
+  
+  _handleAnimEnd() {
+    if (!this.state.init) {
+      this.props.onBackFromSignUp();
+    }
+  }
+  
+  _signUpSuccess() {
+    this.setState({
+      signUpSuccess: true
+    });
+  }
+
   _handleSignUp() {
     this.setState({errMsg: 'Signing Up...'})
     firebaseApp.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
@@ -90,27 +111,6 @@ export default class SignUpForm extends Component {
     });
   }
 
-  _handleGoBack() {
-    this.setState({ init: false });
-  }
-
-  _handleBackBtnPress() {
-    this._handleGoBack();
-    return true;
-  }
-
-  _handleAnimEnd() {
-    if (!this.state.init) {
-      this.props.onBackFromSignUp();
-    }
-  }
-
-  _signUpSuccess() {
-    this.setState({
-      signUpSuccess: true
-    });
-  }
-
   render() {
     const animation = this.state.init ? 'bounceInUp' : 'bounceOutDown';
 
@@ -130,7 +130,7 @@ export default class SignUpForm extends Component {
             autoCapitalize='words'
             autoCorrect={false}
             underlineColorAndroid='transparent'
-            placeholder='Your Name'
+            placeholder='Nome'
             placeholderTextColor='rgba(255,255,255,.6)'
           />
         </View>
@@ -142,7 +142,7 @@ export default class SignUpForm extends Component {
             autoCorrect={false}
             onChangeText={(text) => this.setState({ email: text })}
             underlineColorAndroid='transparent'
-            placeholder='Your Email'
+            placeholder='Email'
             placeholderTextColor='rgba(255,255,255,.6)'
           />
         </View>
@@ -152,7 +152,7 @@ export default class SignUpForm extends Component {
             value={this.state.password}
             onChangeText={(text) => this.setState({ password: text })}
             underlineColorAndroid='transparent'
-            placeholder='Choose Password'
+            placeholder='Senha'
             secureTextEntry
             placeholderTextColor='rgba(255,255,255,.6)'
           />
@@ -160,11 +160,11 @@ export default class SignUpForm extends Component {
         <View style={styles.btnContainers}>
           <TouchableOpacity onPress={this._handleSignUp.bind(this)}>
             <View style={styles.submitBtnContainer}>
-              <Text style={styles.submitBtn}>{'Let\'s Go'.toUpperCase()}</Text>
+              <Text style={styles.submitBtn}>{'Adicionar amigo'.toUpperCase()}</Text>
             </View>
           </TouchableOpacity>
         </View>
-      </View>
+      </View>;
 
     return (
       <Animatable.View

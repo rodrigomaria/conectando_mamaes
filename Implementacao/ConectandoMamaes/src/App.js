@@ -23,7 +23,7 @@ class App extends Component {
   }
 
   renderScene(route, navigator) {
-    return <route.view navigator={navigator} {...route}/>;
+    return <route.view navigator={navigator} {...route} />;
   }
 
   render() {

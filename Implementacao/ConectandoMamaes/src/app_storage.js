@@ -1,8 +1,8 @@
 //importação dos componentes do react, react native, react-redux e redux-storage
 import React, { Component } from 'react';
-import { createStore, applyMiddleware } from 'redux';
-import { Provider } from 'react-redux';
 import * as storage from 'redux-storage';
+import { applyMiddleware, createStore } from 'redux';
+import { Provider } from 'react-redux';
 
 //importação do storage async
 import createEngine from 'redux-storage-engine-reactnativeasyncstorage';

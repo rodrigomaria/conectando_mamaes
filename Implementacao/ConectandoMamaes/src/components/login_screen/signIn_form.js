@@ -37,7 +37,7 @@ class SignInForm extends Component {
       errMsg: null,
       forgotPass: false,
       email: 'rodrigo@rodrigomaria.com.br',
-      password: 'teste123456'
+      password: 'teste123456',   
     };
   }
 
@@ -64,7 +64,10 @@ class SignInForm extends Component {
         this.props.goToHomeScreen();
         setTimeout(() => {
           this._handleGoBack();
-        }, 1000);
+        });
+        setTimeout(() => {
+          this.setState({ errMsg: '' });
+        }, 3000);
       })
       .catch((error) => {
         this.setState({ errMsg: error.message });
@@ -72,11 +75,10 @@ class SignInForm extends Component {
   }
 
   _handleGoBack() {
-    this.setState({ init: false });
+    this.setState({ init: true });
   }
 
   _handleBackBtnPress() {
-    this._handleGoBack();
     return true;
   }
 
@@ -140,7 +142,7 @@ class SignInForm extends Component {
 
 function mapStateToProps(state) {
   return { 
-    currentUser: state.currentUser 
+    currentUser: state.currentUser
   };
 }
 

@@ -1,5 +1,4 @@
-import { SIGNEDIN } from '../actions';
-import { SIGNEDOUT } from '../actions';
+import { SIGNEDIN, SIGNEDOUT } from '../actions';
 
 const defaultUser = {
   email: null,
@@ -10,7 +9,7 @@ const defaultUser = {
 
 export default (state = defaultUser, action) => {
   switch (action.type) {
-    case SIGNEDIN:
+    case SIGNEDIN: {
       const {
         email, name, uid
       } = action.payload;
@@ -20,9 +19,10 @@ export default (state = defaultUser, action) => {
         uid,
         signInStatus: true
       };
-      return signInState;
+      return signInState; 
+    }     
 
-    case SIGNEDOUT:
+    case SIGNEDOUT: {
       const signOutState = {
         email: null,
         name: null,
@@ -30,6 +30,7 @@ export default (state = defaultUser, action) => {
         signInStatus: false
       };
       return signOutState;
+    }     
 
     default:
       return state;

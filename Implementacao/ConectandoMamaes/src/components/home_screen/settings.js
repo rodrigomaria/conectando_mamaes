@@ -5,11 +5,15 @@ import {
   View,
   TouchableOpacity,
   Alert,
+  TextInput,
   StyleSheet
 } from 'react-native';
 
 //importação dos componentes
 import Icon from 'react-native-vector-icons/Ionicons';
+
+//importação dos componentes internos
+import { getColor } from '../config';
 
 //importação do firebase
 import { firebaseApp } from '../../firebase';
@@ -21,7 +25,13 @@ export default class Settings extends Component {
     this.state = {
       user: '',
       email: '',
-      signOutMsg: 'Sair'
+      displayName: '',
+      password: '',
+      signOutMsg: 'Deseja sair ',
+      errMsg: null,
+      clearDisplayName: null,
+      clearEmail: null,
+      clearPassword: null
     };
   }
 
@@ -73,54 +83,164 @@ export default class Settings extends Component {
     }
   }
 
+  _handleSignUp() {
+    this.setState({ errMsg: 'Adicionando...' });
+    firebaseApp.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
+      .then(() => {
+        firebaseApp.auth().currentUser.updateProfile({
+          displayName: this.state.displayName
+        })
+          .then(() => {
+            const uid = firebaseApp.auth().currentUser.uid;
+            const name = firebaseApp.auth().currentUser.displayName;
+            const email = firebaseApp.auth().currentUser.email;
+
+            firebaseApp.database().ref('users/' + uid).set({
+              name,
+              email,
+              uid
+            });
+
+            this.setState({ errMsg: 'Adicionado com sucesso!', clearDisplayName: null, clearEmail: null, clearPassword: null });
+
+            setTimeout(() => {
+              if (firebaseApp.auth().currentUser) {
+                setTimeout(() => {
+                }, 1000);
+              }
+            }, 1000);
+          })
+          .catch((error) => {
+            this.setState({ errMsg: error.errorMessage });
+          });
+      })
+      .catch((error) => {
+        this.setState({ errMsg: error.message });
+      });
+  }
+
   render() {
-    return (
-        <View>
-          <TouchableOpacity style={styles.listItem}>
-            <Icon name='md-add-circle' size={30} color='rgba(0,0,0,.5)' style={styles.itemIcon} />
-            <Text style={styles.itemName}>
-              Adicione um novo amigo
-            </Text>
-          </TouchableOpacity>
+    const errorMessage = this.state.errMsg ?
+      <Text style={{ marginLeft: 20, fontWeight: 'bold' }}>{this.state.errMsg}</Text>
+      : null;
 
-          <TouchableOpacity style={styles.listItem}>
-            <Icon name='md-remove-circle' size={30} color='rgba(0,0,0,.5)' style={styles.itemIcon} />
-            <Text style={styles.itemName}>
-              Remover amigos
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.listItem} onPress={this._logOut.bind(this)}>
-            <Icon name='md-log-out' size={30} color='rgba(0,0,0,.5)' style={styles.itemIcon} />
-            <Text style={styles.itemName}>
-              {this.state.signOutMsg} - {this.state.user}
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.listItem} onPress={this._deleteAccount.bind(this)}>
-            <Icon name='md-close' size={30} color='rgba(0,0,0,.5)' style={styles.itemIcon} />
-            <Text style={[styles.itemName, { color: 'red' }]}>
-              Delete minha conta
-            </Text>
-          </TouchableOpacity>
-          <Text style={{ flex: 1, margin: 20 }}>{this.state.deleteErrMsg}</Text>
+    const gravidaAddFriends = firebaseApp.auth().currentUser.uid === 'fv4zZy0VJzNWkDglkrIfzuV0Rdw2' ?
+      <View style={styles.boxAddFriend}>
+        <View style={styles.listItem}>
+          <Icon name='md-add-circle' size={30} color='rgba(0,0,0,.5)' style={styles.itemIcon} />
+          <Text style={[styles.itemName, { fontWeight: 'bold' }]}>Adicione um novo amigo</Text>
         </View>
+        <View>
+          <TextInput
+            value={this.state.clearDisplayName}
+            onChangeText={(text) => this.setState({ displayName: text })}
+            autoCapitalize='words'
+            autoCorrect={false}
+            underlineColorAndroid='black'
+            placeholder='Nome'
+            placeholderTextColor='rgba(0,0,0,.6)'
+            style={{ marginLeft: 20, marginRight: 20 }}
+          />
+
+          <TextInput
+            value={this.state.clearEmail}
+            keyboardType='email-address'
+            autoCorrect={false}
+            onChangeText={(text) => this.setState({ email: text })}
+            placeholder='Email'
+            underlineColorAndroid='black'
+            placeholderTextColor='rgba(0,0,0,.6)'
+            style={{ marginLeft: 20, marginRight: 20 }}
+          />
+
+          <TextInput
+            value={this.state.clearPassword}
+            onChangeText={(text) => this.setState({ password: text })}
+            underlineColorAndroid='black'
+            placeholder='Senha'
+            secureTextEntry
+            placeholderTextColor='rgba(0,0,0,.6)'
+            style={{ marginLeft: 20, marginRight: 20 }}
+          />
+        </View>
+
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+          <TouchableOpacity onPress={this._handleSignUp.bind(this)}>
+            <View style={styles.submitBtnContainer}>
+              <Text style={styles.submitBtn}>{'Adicionar amigo'.toUpperCase()}</Text>
+            </View>
+          </TouchableOpacity>
+
+          {errorMessage}
+        </View>
+      </View>
+      : null;
+
+      const gravidaRemoveFriends = firebaseApp.auth().currentUser.uid === 'fv4zZy0VJzNWkDglkrIfzuV0Rdw2' ?
+        <TouchableOpacity style={styles.listItem}>
+          <Icon name='md-remove-circle' size={30} color='rgba(0,0,0,.5)' style={styles.itemIcon} />
+          <Text style={styles.itemName}>Remover amigos</Text>
+        </TouchableOpacity>
+      : null;
+
+
+    return (
+      <View>
+        {gravidaAddFriends}
+        {gravidaRemoveFriends}        
+
+        <TouchableOpacity style={styles.listItem} onPress={this._logOut.bind(this)}>
+          <Icon name='md-log-out' size={30} color='rgba(0,0,0,.5)' style={styles.itemIcon} />
+          <Text style={styles.itemName}>
+            {this.state.signOutMsg}{this.state.user} ?
+            </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.listItem} onPress={this._deleteAccount.bind(this)}>
+          <Icon name='md-close' size={30} color='rgba(0,0,0,.5)' style={styles.itemIcon} />
+          <Text style={[styles.itemName, { color: 'red' }]}>Delete minha conta</Text>
+        </TouchableOpacity>
+        <Text style={{ flex: 1, margin: 20 }}>{this.state.deleteErrMsg}</Text>
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  listItem: {
+  boxAddFriend: {
+    marginLeft: 5,
+    marginRight: 5,
     marginTop: 10,
+    marginBottom: 5,
+    borderColor: 'black',
+    borderWidth: 1
+  },
+  listItem: {
     height: 50,
     flexDirection: 'row',
     alignItems: 'center'
   },
   itemIcon: {
     marginLeft: 20,
-    marginRight: 20
+    marginRight: 20,
+    marginTop: 5
   },
   itemName: {
     fontFamily: 'Roboto-Regular'
+  },
+  submitBtnContainer: {
+    width: 120,
+    height: 40,
+    backgroundColor: '#e8633a',
+    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 20,
+    marginTop: 5
+  },
+  submitBtn: {
+    fontFamily: 'Roboto-Bold',
+    fontSize: 12,
+    color: '#ffffff'
   }
 });
