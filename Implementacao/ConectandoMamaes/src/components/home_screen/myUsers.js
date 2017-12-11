@@ -76,21 +76,46 @@ class myUsers extends Component {
     return userArray;
   }
 
+  renderUsersOffButton() {
+    const userArray = [];
+    _.forEach(this.state.users, (value, index) => {
+      userArray.push(
+        <TouchableOpacity
+          key={index}
+        >
+          <User
+            name={value.name}
+            email={value.email}
+          />
+        </TouchableOpacity>
+      );
+    });
+    _.reverse(userArray);
+    return userArray;
+  }
+
   render() {
+    const listUsers = firebaseApp.auth().currentUser.uid === 'coyXHm8LAWXeMaAkrLBa8osvB2h1'
+    || firebaseApp.auth().currentUser.uid ==='FXi7e0WOZjMhUkbZbPZSKo0IsCy2' ?
+      <ScrollView styles={styles.postContainer}>
+        { this.renderUsers() }
+      </ScrollView>
+      :
+      <ScrollView styles={styles.postContainer}>
+        { this.renderUsersOffButton() }
+      </ScrollView>;
+
     return (
       <View style={styles.container}>
-        <View style={styles.profileInfoContainer}>
-          <View style={styles.profileCountsContainer}>
-            <Text style={styles.profileName}>
-              Usuários
-            </Text>
-          </View>
+      <View style={styles.profileInfoContainer}>
+        <View style={styles.profileCountsContainer}>
+          <Text style={styles.profileName}>
+            Usuários
+          </Text>
         </View>
-
-        <ScrollView styles={styles.postContainer}>
-          {this.renderUsers()}
-        </ScrollView>
       </View>
+      { listUsers }      
+    </View>
     );
   }
 }

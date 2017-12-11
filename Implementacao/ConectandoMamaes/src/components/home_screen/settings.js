@@ -125,7 +125,8 @@ export default class Settings extends Component {
       <Text style={{ marginLeft: 20, fontWeight: 'bold' }}>{this.state.errMsg}</Text>
       : null;
 
-    const gravidaAddFriends = firebaseApp.auth().currentUser.uid === 'elv6b0sNR9dCDOPOzrAr6VHQw8J3' || 'FXi7e0WOZjMhUkbZbPZSKo0IsCy2' ?
+    const gravidaAddFriends = firebaseApp.auth().currentUser.uid === 'coyXHm8LAWXeMaAkrLBa8osvB2h1' || 
+      firebaseApp.auth().currentUser.uid === 'FXi7e0WOZjMhUkbZbPZSKo0IsCy2' ?
       <View style={styles.boxAddFriend}>
         <View style={styles.listItem}>
           <Icon name='md-add-circle' size={30} color='rgba(0,0,0,.5)' style={styles.itemIcon} />

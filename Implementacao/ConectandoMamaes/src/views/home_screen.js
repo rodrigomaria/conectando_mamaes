@@ -47,7 +47,7 @@ class HomeScreen extends Component {
         <Timeline tabLabel="md-pulse" />
         <CreateNew tabLabel="md-create" />
         <MyPosts tabLabel="md-contact" />
-        <MyUsers tabLabel="md-people" />      
+        <MyUsers tabLabel="md-people" />  
         <Settings
           tabLabel="ios-settings"
           onLogOut={() => { this._onLogOut(); }}
