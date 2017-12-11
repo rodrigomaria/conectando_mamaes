@@ -12,9 +12,6 @@ import {
 //importação dos componentes
 import Icon from 'react-native-vector-icons/Ionicons';
 
-//importação dos componentes internos
-import { getColor } from '../config';
-
 //importação do firebase
 import { firebaseApp } from '../../firebase';
 
@@ -31,7 +28,7 @@ export default class Settings extends Component {
       errMsg: null,
       clearDisplayName: null,
       clearEmail: null,
-      clearPassword: null
+      clearPassword: null,
     };
   }
 
@@ -100,15 +97,19 @@ export default class Settings extends Component {
               email,
               uid
             });
-
-            this.setState({ errMsg: 'Adicionado com sucesso!', clearDisplayName: null, clearEmail: null, clearPassword: null });
-
             setTimeout(() => {
               if (firebaseApp.auth().currentUser) {
                 setTimeout(() => {
                 }, 1000);
               }
             }, 1000);
+            this.setState({ errMsg: 'Adicionado com sucesso!' });
+            this.setState({ clearDisplayName: '' });
+            this.setState({ clearEmail: '' });
+            this.setState({ clearPassword: '' });
+            this.setState({ clearDisplayName: null });
+            this.setState({ clearEmail: null });
+            this.setState({ clearPassword: null });
           })
           .catch((error) => {
             this.setState({ errMsg: error.errorMessage });
@@ -124,7 +125,7 @@ export default class Settings extends Component {
       <Text style={{ marginLeft: 20, fontWeight: 'bold' }}>{this.state.errMsg}</Text>
       : null;
 
-    const gravidaAddFriends = firebaseApp.auth().currentUser.uid === 'fv4zZy0VJzNWkDglkrIfzuV0Rdw2' ?
+    const gravidaAddFriends = firebaseApp.auth().currentUser.uid === 'elv6b0sNR9dCDOPOzrAr6VHQw8J3' || 'FXi7e0WOZjMhUkbZbPZSKo0IsCy2' ?
       <View style={styles.boxAddFriend}>
         <View style={styles.listItem}>
           <Icon name='md-add-circle' size={30} color='rgba(0,0,0,.5)' style={styles.itemIcon} />
@@ -170,24 +171,14 @@ export default class Settings extends Component {
               <Text style={styles.submitBtn}>{'Adicionar amigo'.toUpperCase()}</Text>
             </View>
           </TouchableOpacity>
-
           {errorMessage}
         </View>
       </View>
       : null;
 
-      const gravidaRemoveFriends = firebaseApp.auth().currentUser.uid === 'fv4zZy0VJzNWkDglkrIfzuV0Rdw2' ?
-        <TouchableOpacity style={styles.listItem}>
-          <Icon name='md-remove-circle' size={30} color='rgba(0,0,0,.5)' style={styles.itemIcon} />
-          <Text style={styles.itemName}>Remover amigos</Text>
-        </TouchableOpacity>
-      : null;
-
-
     return (
       <View>
-        {gravidaAddFriends}
-        {gravidaRemoveFriends}        
+        {gravidaAddFriends}      
 
         <TouchableOpacity style={styles.listItem} onPress={this._logOut.bind(this)}>
           <Icon name='md-log-out' size={30} color='rgba(0,0,0,.5)' style={styles.itemIcon} />

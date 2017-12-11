@@ -37,7 +37,7 @@ class SignInForm extends Component {
       errMsg: null,
       forgotPass: false,
       email: 'rodrigo@rodrigomaria.com.br',
-      password: 'teste123456',   
+      password: 'teste12345',   
     };
   }
 
@@ -61,13 +61,27 @@ class SignInForm extends Component {
     this.setState({ errMsg: 'Logando...' });
     firebaseApp.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
       .then(() => {
-        this.props.goToHomeScreen();
+        const uid = firebaseApp.auth().currentUser.uid;
+        const query = firebaseApp.database().ref('/users/' + uid).orderByKey();
+        query.once('value')
+          .then((snapshot) => {
+            snapshot.forEach((childSnapshot) => {
+              const key = childSnapshot.key;
+              if (firebaseApp.auth().currentUser.uid !== key) {
+                this.props.goToHomeScreen();
+              } else {                
+                this.props.onSignIn();
+              } 
+              return true;
+          });
+        });               
         setTimeout(() => {
           this._handleGoBack();
         });
         setTimeout(() => {
-          this.setState({ errMsg: '' });
+          this.setState({ errMsg: 'Esse usuário não possui mais autorização para uso deste app.' });
         }, 3000);
+    this.setState({ email: firebaseApp.auth().currentUser.email, name: firebaseApp.auth().currentUser.name, uid: firebaseApp.auth().currentUser.uid });
       })
       .catch((error) => {
         this.setState({ errMsg: error.message });

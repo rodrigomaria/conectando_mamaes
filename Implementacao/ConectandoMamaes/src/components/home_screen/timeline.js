@@ -162,7 +162,7 @@ class Timeline extends Component {
 
     :
     <View style={styles.waitView}>
-      <Text>Carregando a timeline...</Text>
+      <Text style={{ fontWeight: 'bold' }}>Não existe nenhum post ainda.</Text>
     </View>;
 
     return (

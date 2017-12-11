@@ -14,7 +14,6 @@ export default class NavigationTab extends Component {
   }
 
   render() {
-
     return (
       <View style={styles.tabs}>
         <View style={styles.titleContainer}>
@@ -40,7 +39,7 @@ export default class NavigationTab extends Component {
 
 const styles = StyleSheet.create({
   tabs: {
-    height: 50,
+    height: 100,
     flexDirection: 'row',
     backgroundColor: getColor('orange57'),
     elevation: 5
@@ -50,11 +49,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'flex-start',
     paddingLeft: 20
-  },
-  title: {
-    fontFamily: 'MagmaWave',
-    fontSize: 30,
-    color: '#ffffff'
   },
   tab: {
     flex: 2,
