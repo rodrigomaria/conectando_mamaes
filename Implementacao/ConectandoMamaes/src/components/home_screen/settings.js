@@ -116,7 +116,15 @@ export default class Settings extends Component {
           });
       })
       .catch((error) => {
-        this.setState({ errMsg: error.message });
+        if (error.code === 'auth/email-already-in-use') {
+          this.setState({ errMsg: 'Já existe uma conta cadastrada com esse email.' });
+        } 
+        if (error.code === 'auth/weak-password') {
+          this.setState({ errMsg: 'Digite uma senha mais forte.' });
+        }
+        if (error.code === 'auth/invalid-email') {
+          this.setState({ errMsg: 'Email inválido.' });
+        }
       });
   }
 

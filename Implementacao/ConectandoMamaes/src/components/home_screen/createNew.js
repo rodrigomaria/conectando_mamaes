@@ -23,7 +23,7 @@ export default class CreateNew extends Component {
 
     this.state = {
       postStatus: null,
-      postText: ''
+      postText: '',
     };
 
     if (Platform.OS === 'android') {
@@ -52,7 +52,7 @@ export default class CreateNew extends Component {
         text: this.state.postText,
         puid: newPostKey
       };
-
+      
       const updates = {};
       updates['/posts/' + newPostKey] = postData;
       updates['/users/' + uid + '/posts/' + newPostKey] = postData;
@@ -90,13 +90,15 @@ export default class CreateNew extends Component {
             placeholderTextColor='rgba(0,0,0,.6)'
           />
         </View>
+
         <View style={styles.btnBox}>
           <TouchableOpacity style={styles.btnContainer} onPress={this._handleNewPost.bind(this)}>
             <Text style={styles.btnText}>{ 'Post'.toUpperCase() }</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.btnContainer}>
+          {/* <TouchableOpacity
+            style={styles.btnContainer}>
             <Text style={styles.btnText}>{ 'Selecionar Mídia'.toUpperCase() }</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </View>
     );

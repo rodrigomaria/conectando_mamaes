@@ -19,6 +19,7 @@ import { savePosts } from '../../actions';
 import { getColor } from '../config';
 import { firebaseApp } from '../../firebase';
 import Post from './post';
+import Informations from './informations';
 
 
 //tradução do componente locale
@@ -162,12 +163,13 @@ class Timeline extends Component {
 
     :
     <View style={styles.waitView}>
-      <Text style={{ fontWeight: 'bold' }}>Não existe nenhum post ainda.</Text>
+      <Text style={{ fontWeight: 'bold' }}>Nenhm post encontrado.</Text>
     </View>;
 
     return (
       <View style={styles.container}>
         {view}
+        <Informations />
       </View>
     );
   }

@@ -69,10 +69,7 @@ class SignInForm extends Component {
               const key = childSnapshot.key;
               if (firebaseApp.auth().currentUser.uid !== key) {
                 this.props.goToHomeScreen();
-              } else {                
-                this.props.onSignIn();
-                this.setState({ errMsg: 'Esse usuário não possui mais autorização para uso deste app.' });
-              } 
+              }
               return true;
           });
         });               
@@ -80,12 +77,23 @@ class SignInForm extends Component {
           this._handleGoBack();
         });
         setTimeout(() => {
-          this.setState({ errMsg: '' });
+          this.setState({ errMsg: 'Usuário desabilitado.' });
         }, 3000);
     this.setState({ email: firebaseApp.auth().currentUser.email, name: firebaseApp.auth().currentUser.name, uid: firebaseApp.auth().currentUser.uid });
       })
       .catch((error) => {
-        this.setState({ errMsg: error.message });
+        if (error.code === 'auth/wrong-password') {
+          this.setState({ errMsg: 'Senha incorreta.' });
+        } 
+        if (error.code === 'auth/user-disabled') {
+          this.setState({ errMsg: 'Email desabilitado.' });
+        } 
+        if (error.code === 'auth/user-not-found') {
+          this.setState({ errMsg: 'Usuário não existe.' });
+        }
+        if (error.code === 'auth/invalid-email') {
+          this.setState({ errMsg: 'Email inválido.' });
+        } 
       });
   }
 

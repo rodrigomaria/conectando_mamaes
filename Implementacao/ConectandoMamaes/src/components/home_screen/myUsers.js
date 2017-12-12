@@ -60,17 +60,21 @@ class myUsers extends Component {
   renderUsers() {
     const userArray = [];
     _.forEach(this.state.users, (value, index) => {
-      userArray.push(
-        <TouchableOpacity
-          onLongPress={this._handleDelete.bind(this, value.uid)}
-          key={index}
-        >
-          <User
-            name={value.name}
-            email={value.email}
-          />
-        </TouchableOpacity>
-      );
+      if (value.uid !== firebaseApp.auth().currentUser.uid && 
+        value.uid !== 'FXi7e0WOZjMhUkbZbPZSKo0IsCy2' &&
+          value.uid !== 'coyXHm8LAWXeMaAkrLBa8osvB2h1') {
+        userArray.push(
+          <TouchableOpacity
+            onLongPress={this._handleDelete.bind(this, value.uid)}
+            key={index}
+          >       
+            <User
+              name={value.name}
+              email={value.email}
+            />          
+          </TouchableOpacity>
+        );
+      }
     });
     _.reverse(userArray);
     return userArray;
@@ -79,16 +83,20 @@ class myUsers extends Component {
   renderUsersOffButton() {
     const userArray = [];
     _.forEach(this.state.users, (value, index) => {
-      userArray.push(
-        <TouchableOpacity
-          key={index}
-        >
-          <User
-            name={value.name}
-            email={value.email}
-          />
-        </TouchableOpacity>
-      );
+      if (value.uid !== firebaseApp.auth().currentUser.uid && 
+        value.uid !== 'FXi7e0WOZjMhUkbZbPZSKo0IsCy2' &&
+          value.uid !== 'coyXHm8LAWXeMaAkrLBa8osvB2h1') {
+        userArray.push(
+          <TouchableOpacity
+            key={index}
+          >
+            <User
+              name={value.name}
+              email={value.email}
+            />
+          </TouchableOpacity>
+        );
+      }
     });
     _.reverse(userArray);
     return userArray;
