@@ -36,8 +36,8 @@ class SignInForm extends Component {
       init: true,
       errMsg: null,
       forgotPass: false,
-      email: 'rodrigo@rodrigomaria.com.br',
-      password: 'teste12345',   
+      email: '',
+      password: '',   
     };
   }
 
@@ -77,7 +77,7 @@ class SignInForm extends Component {
           this._handleGoBack();
         });
         setTimeout(() => {
-          this.setState({ errMsg: 'Usuário desabilitado.' });
+          this.setState({ errMsg: 'Usuário deslogado ou desabilitado.' });
         }, 3000);
     this.setState({ email: firebaseApp.auth().currentUser.email, name: firebaseApp.auth().currentUser.name, uid: firebaseApp.auth().currentUser.uid });
       })

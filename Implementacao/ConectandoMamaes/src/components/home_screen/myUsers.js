@@ -84,8 +84,7 @@ class myUsers extends Component {
     const userArray = [];
     _.forEach(this.state.users, (value, index) => {
       if (value.uid !== firebaseApp.auth().currentUser.uid && 
-        value.uid !== 'FXi7e0WOZjMhUkbZbPZSKo0IsCy2' &&
-          value.uid !== 'coyXHm8LAWXeMaAkrLBa8osvB2h1') {
+           value.uid !== 'coyXHm8LAWXeMaAkrLBa8osvB2h1') {
         userArray.push(
           <TouchableOpacity
             key={index}
@@ -118,7 +117,7 @@ class myUsers extends Component {
       <View style={styles.profileInfoContainer}>
         <View style={styles.profileCountsContainer}>
           <Text style={styles.profileName}>
-            Usuários
+            Seguidores
           </Text>
         </View>
       </View>

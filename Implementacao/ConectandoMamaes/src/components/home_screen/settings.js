@@ -112,19 +112,16 @@ export default class Settings extends Component {
             this.setState({ clearPassword: null });
           })
           .catch((error) => {
-            this.setState({ errMsg: error.errorMessage });
+            if (error.code === 'auth/email-already-in-use') {
+              this.setState({ errMsg: 'Esse email já está cadastrado.' });
+            } 
+            if (error.code === 'auth/weak-password') {
+              this.setState({ errMsg: 'Digite uma senha mais forte.' });
+            }
+            if (error.code === 'auth/invalid-email') {
+              this.setState({ errMsg: 'Email inválido.' });
+            }
           });
-      })
-      .catch((error) => {
-        if (error.code === 'auth/email-already-in-use') {
-          this.setState({ errMsg: 'Já existe uma conta cadastrada com esse email.' });
-        } 
-        if (error.code === 'auth/weak-password') {
-          this.setState({ errMsg: 'Digite uma senha mais forte.' });
-        }
-        if (error.code === 'auth/invalid-email') {
-          this.setState({ errMsg: 'Email inválido.' });
-        }
       });
   }
 
@@ -133,8 +130,7 @@ export default class Settings extends Component {
       <Text style={{ marginLeft: 20, fontWeight: 'bold' }}>{this.state.errMsg}</Text>
       : null;
 
-    const gravidaAddFriends = firebaseApp.auth().currentUser.uid === 'coyXHm8LAWXeMaAkrLBa8osvB2h1' || 
-      firebaseApp.auth().currentUser.uid === 'FXi7e0WOZjMhUkbZbPZSKo0IsCy2' ?
+    const gravidaAddFriends = firebaseApp.auth().currentUser.uid === 'coyXHm8LAWXeMaAkrLBa8osvB2h1' || 'FXi7e0WOZjMhUkbZbPZSKo0IsCy2' ?
       <View style={styles.boxAddFriend}>
         <View style={styles.listItem}>
           <Icon name='md-add-circle' size={30} color='rgba(0,0,0,.5)' style={styles.itemIcon} />
